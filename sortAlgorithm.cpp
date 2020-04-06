@@ -1,3 +1,4 @@
+//https://blog.csdn.net/kuaizi_sophia/article/details/87954222	
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -7,6 +8,7 @@ using namespace std;
 void bubbleSort(vector<int>& array) {
 	for (int i = 0; i < array.size(); i++) {
 		//设置标志位判断本轮循环是否发生了交换，如果标志位一直是false，说明本轮已经有序，不需要再循环了，跳出
+		//每一次循环都把最大的数换到序列末尾
 		bool isExchanged = false;
 		for (int j = 0; j < array.size() - i - 1; j++) {
 			if (array[j] > array[j + 1]) {
@@ -53,6 +55,8 @@ void insertSort(vector<int>& array) {
 	}
 }
 
+//选择一个增量序列，初始增量gap=length/2，后续元素依次为前一元素除2，直至gap=1；
+//每轮以gap为步长，在列表上进行采样，将列表分为gap个小组，在每个小组内进行选择排序；
 void shellSort(vector<int>& array) {
 	int n = array.size();
 	for (int gap = n / 2; gap >= 1; gap /= 2) {
