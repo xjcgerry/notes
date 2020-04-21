@@ -18,6 +18,8 @@ rabbbit
 rabbbit  
 ^^^ ^^^  
 ### 思路
+参考：https://www.jianshu.com/p/719954a411c0  
+https://blog.csdn.net/qq874455953/article/details/83959093  
 二维dp数组记录，dp[i][j]表示的是s的前j个字符有多少种方法可以包含t的前i个字符。  
 dp[0][j]：t是空串，s不是空串，所以dp[0][j]=1  
 dp[i][0]：t不是空串，s是空串，则肯定为0  
