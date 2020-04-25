@@ -110,7 +110,7 @@ public:
         return flag;
     }
 };
-
+````
 ## 113. 路径总和 II
 用B站视频里看到的方法做，先定义结果和每次的路径值，以及当前的和cnt，然后借助dfs函数进行递归。
 ````cpp
@@ -135,6 +135,38 @@ public:
         int cnt = 0;
         dfs(root, sum, cnt, result, track);
         return result;
+    }
+};
+````
+# 410. 分割数组的最大值
+给定一个非负整数数组和一个整数 m，你需要将这个数组分成 m 个非空的连续子数组。设计一个算法使得这 m 个子数组各自和的最大值最小。
+## 思路
+用深度优先搜索生成所有的分割方案。对于书读中的每个元素，我们可以把它附加到之前的子数组上或者以这个数开始一个新的子数组（如果数组的长度不超过m）。同时更新每个子数组的和。
+
+````cpp
+class Solution {
+public:
+    int ans;
+    int n, count;   //count记录子数组的个数
+    void dfs(vector<int>& nums, int i, int cntSubarray, int curSum, int curMax) {
+        if (i == n && cntSubarray == count) {
+            ans = (ans, curMax);
+            return;
+        }
+        if (i == n)
+            return;
+        if (i > 0)
+            dfs(nums, i + 1, cntSubarray, curSum + nums[i], max(curMax, curSum + nums[i]));
+        if (count < m)
+            dfs(nums, i + 1, cntSubarray + 1, nums[i], max(curMax, nums[i]));
+    }
+    
+    int splitArray(vector<int> &nums, int m) {
+        ans = INT_MAX;
+        n = nums.size();
+        count = m;
+        dfs(nums, 0, 0, 0, 0);
+        return ans;
     }
 };
 ````
