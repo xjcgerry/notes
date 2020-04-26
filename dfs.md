@@ -33,6 +33,7 @@ public:
 };
 ````
 ### 回溯算法
+参考：https://leetcode-cn.com/problems/permutations/solution/hui-su-suan-fa-xiang-jie-by-labuladong-2/  
 解决一个回溯问题，实际是一个决策树的遍历过程，需要思考三个问题：
 * 路径：已做出的选择
 * 选择列表：当前可以做出的选择
