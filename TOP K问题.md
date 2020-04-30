@@ -145,3 +145,37 @@ public:
     }
 };
 ````
+## 215. 数组中的第K个最大元素
+### 快速排序法
+````cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int low = 0, high = nums.size() - 1, mid = 0;
+        while (low <= high) {
+            mid = partition(nums, low, high);
+            if (mid == nums.size() - k)     //第k大的元素，在数组中的索引为nums.size()-k
+                return nums[mid];
+            else if(mid > nums.size() - k)
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        return -1;
+    }
+
+    int partition(vector<int> &nums, int low, int high) {
+        int pivotkey = nums[(low + high)/2];    //选择位于中间的数作为基数
+        swap(nums[low], nums[(low + high)/2]);  //选好后，和最左边的数交换一下
+        while (low < high) {
+            while (low < high && nums[high] >= pivotkey)
+                high--;
+            swap(nums[low], nums[high]);
+            while (low < high && nums[low] <= pivotkey)
+                low++;
+            swap(nums[low], nums[high]);
+        }
+        return low;
+    }
+};
+````
