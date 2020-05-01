@@ -179,3 +179,36 @@ public:
     }
 };
 ````
+
+## 692. 前K个高频单词
+### sort
+利用sort()函数，定义cmp规定排序规则
+````cpp
+class Solution {
+public:
+	static bool cmp(const pair<string, int>& a, const pair<string, int>& b) {
+		if (a.second == b.second)
+			return a.first < b.first;   //如果是0，就互换位置；如果是1，就保持不变
+		return a.second > b.second;
+	}
+
+	vector<string> topKFrequent(vector<string>& words, int k) {
+		map<string, int> m;
+		for (string word : words) {
+			m[word]++;
+		}
+        //每个单词，只能在m中出现一次，用一个容器接收m，并将其按照出现次数，从大到小排序
+		vector<pair<string, int> > vec;
+		for (auto iter = m.begin(); iter != m.end(); iter++) {
+			vec.push_back(pair<string, int>(iter->first, iter->second));
+		}
+		sort(vec.begin(), vec.end(), cmp);
+
+		vector<string> res;
+		for (int i = 0; i < k; i++) {
+			res.push_back(vec[i].first);
+		}
+		return res;
+	}
+};
+````
