@@ -212,3 +212,29 @@ public:
 	}
 };
 ````
+### 优先级队列
+````cpp
+class Solution {
+public:
+	vector<string> topKFrequent(vector<string>& words, int k) {
+		unordered_map<string, int> record;
+		priority_queue<pair<int, string> > heap;	//默认为大根堆
+		for (auto word : words)
+			record[word]++;
+		for (auto item : record)
+		{
+			heap.push(make_pair(-item.second, item.first));	//在元素入队时，调整结构
+			if (heap.size() > k)
+				heap.pop();	//这里可以不用比较元素，直接pop的原因是：
+							//在pop之前队列里已经有k+1个元素，所以直接pop堆顶元素，剩下的就是符合要求的k个元素
+		}
+		vector<string> res(k);
+		for (int i = k - 1; i >= 0; i--)
+		{
+			res[i] = heap.top().second;
+			heap.pop();
+		}
+		return res;
+	}
+};
+````
