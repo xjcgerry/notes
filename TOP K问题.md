@@ -238,3 +238,44 @@ public:
 	}
 };
 ````
+
+## 面试题17.14 最小k个数
+可以用优先级队列，C++的priority_queue默认是大顶堆，正好可以用于求最小的k个数，但是时间复杂度较高为O(k+NlogK)
+用快排做复杂度会低一些，为O(N)
+````cpp
+class Solution {
+public:
+    int partition(vector<int> &arr, int left, int right) {
+        int pivotkey = arr[left];
+        while (left < right) {
+            while (left < right && arr[right] >= pivotkey)
+                right--;
+            swap(arr[left], arr[right]);
+            while (left < right && arr[left] <= pivotkey)
+                left++;
+            swap(arr[left], arr[right]);
+        }
+        return left;
+    }
+
+    vector<int> smallestK(vector<int>& arr, int k) {
+        vector<int> res;
+        if (k == 0)
+            return res;
+        int left = 0, right = arr.size()-1;
+        while (left <= right) {
+            int mid = partition(arr, left, right);
+            if (mid == k) {
+                break;
+            }
+            else if(mid > k)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        for (int i = 0; i < k; i++)
+            res.push_back(arr[i]);
+        return res;
+    }
+};
+````
