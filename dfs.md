@@ -171,3 +171,57 @@ public:
     }
 };
 ````
+
+# 面试题.字符串的全排列
+可能有重复的字母
+````
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class Solution {
+public:
+	void dfs(string &array, string &cur, vector<bool> &used, vector<string> &res)
+	{
+		if (cur.size() == array.size())
+		{
+			res.push_back(cur);
+			return;
+		}
+		for (int i = 0; i < array.size(); i++)
+		{
+			if (used[i] || (i > 0 && !used[i - 1] && array[i] == array[i - 1]))	//剪枝
+				continue;
+			cur.push_back(array[i]);
+			used[i] = true;
+			dfs(array, cur, used, res);
+			cur.pop_back();
+			used[i] = false;
+		}
+	}
+
+	int permuteUnique(string &array)
+	{
+		int len = array.size();
+		string cur;
+		int count = 0;
+		vector<string> res;
+		if (len == 0)
+			return 0;
+
+		sort(array.begin(), array.end());
+		vector<bool> used(len,false);
+		dfs(array, cur, used, res);
+		return res.size();
+	}
+};
+
+int main()
+{
+	Solution ss;
+	string array = "AABBCC";
+	int result = ss.permuteUnique(array);
+	system("pause");
+	return 0;
+}
+````
