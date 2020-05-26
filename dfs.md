@@ -174,7 +174,7 @@ public:
 
 # 面试题.字符串的全排列
 可能有重复的字母
-````
+````cpp
 #include <bits/stdc++.h>
 
 using namespace std;
