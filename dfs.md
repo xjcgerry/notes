@@ -225,3 +225,75 @@ int main()
 	return 0;
 }
 ````
+
+# 39. 组合总和
+给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。  
+candidates 中的数字可以无限制重复被选取。  
+说明：
+* 所有数字（包括 target）都是正整数。
+* 解集不能包含重复的组合。 
+示例1：  
+输入: candidates = [2,3,6,7], target = 7,  
+所求解集为:  
+[  
+  [7],  
+  [2,2,3]  
+]  
+## 解法
+可以用target减去candidates中的数，直到target=0，找到了符合要求的集合；target<0，不符合要求；
+或者用加法来做，从0开始加candidates中的数，直到sum=target；
+````cpp
+class Solution {
+private:
+    vector<int> candidates;
+    vector<vector<int>> res;
+    vector<int> cur;
+
+public:
+    void DFS(int start, int target) {
+        if (target == 0) {
+            res.push_back(cur);
+            return;
+        }
+        for (int i = start; i < candidates.size() && target - candidates[i] >= 0; i++) {
+            cur.push_back(candidates[i]);
+            DFS(i, target - candidates[i]);
+            cur.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        this->candidates = candidates;
+        DFS(0, target);
+        return res;
+    }
+};
+````
+````cpp
+class Solution {
+private:
+	vector<int> candidates;
+	vector<vector<int>> res;
+	vector<int> path;
+public:
+	void DFS(int start, int sum, int target) {
+		if (sum == target) {
+			res.push_back(path);
+			return;
+		}
+		for (int i = start; i < candidates.size() && sum + candidates[i] <= target; i++) {
+			path.push_back(candidates[i]);
+			DFS(i, sum + candidates[i], target);
+			path.pop_back();
+		}
+	}
+
+	vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+		sort(candidates.begin(), candidates.end());
+		this->candidates = candidates;
+		DFS(0, 0, target);
+		return res;
+	}
+};
+````
