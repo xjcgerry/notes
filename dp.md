@@ -96,3 +96,53 @@ public:
     }
 };
  ````
+
+# 279. 完全平方数
+跟零钱兑换一个思路
+
+# 343. 整数拆分
+## 暴力搜索
+![image](https://github.com/xjcgerry/no-unemployment/blob/master/images/343-1.png)
+容易得到递归表达式F(n) = max{i * F(n - i)}, i = 1, 2, ..., n - 1  
+上述表达式是表明n-i要继续分解的情况，但是如果n-i比F(n-i)更大，就不用继续分解了。就比如3和F(3)。因此还需要比较i*(n-i)和i\*F(n-i)的大小。
+````cpp
+class Solution {
+public:
+    int integerBreak(int n) {
+        if (n == 2)
+            return 1;
+        int res = -1;
+        for (int i = 1; i <= n-1; i++)
+            res = max(res, max(i * (n - i), i * integerBreak(n - i)));
+        return res;
+    }
+};
+````
+暴力解法在n取到28时，就会超出时间限制，这是因为递归计算的过程中计算了很多重复值。
+## 记忆化搜索（备忘录）
+````cpp
+class Solution {
+public:
+    vector<int> memory;
+    int integerBreak(int n) {
+        memory = vector<int>(n + 1);
+        return integerBreakHelper(n);
+    }
+    int integerBreakHelper(int n) {
+        if (n == 2)
+            return 1;
+        // memory的初始值为0，如果它不为0，说明已经计算过了，直接返回即可
+        if (memory[n] != 0)
+            return memory[n];
+        
+        int res = -1;
+        for (int i = 1; i <= n - 1; i++) {
+            res = max(res, max(i * (n - i), i * integerBreakHelper(n - i)));
+        }
+        
+        //// 将每次计算的结果保存到备忘录数组中
+        memory[n] = res;
+        return res;
+    }
+};
+````
