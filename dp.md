@@ -101,6 +101,7 @@ public:
 跟零钱兑换一个思路
 
 # 343. 整数拆分
+来自：https://leetcode-cn.com/problems/integer-break/solution/bao-li-sou-suo-ji-yi-hua-sou-suo-dong-tai-gui-hua-/
 ## 暴力搜索
 ![image](https://github.com/xjcgerry/no-unemployment/blob/master/images/343-1.png)
 容易得到递归表达式F(n) = max{i * F(n - i)}, i = 1, 2, ..., n - 1  
