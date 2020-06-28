@@ -141,9 +141,25 @@ public:
             res = max(res, max(i * (n - i), i * integerBreakHelper(n - i)));
         }
         
-        //// 将每次计算的结果保存到备忘录数组中
+        //将每次计算的结果保存到备忘录数组中
         memory[n] = res;
         return res;
+    }
+};
+````
+## 动态规划
+````cpp
+class Solution {
+public:
+    int integerBreak(int n) {
+        vector<int> dp(n+1, 0);
+        dp[2] = 1;
+        for (int i = 3; i <= n; i++) {
+            for (int j = 1; j <= i - 1; j++) {
+                dp[i] = max(dp[i], max(j * dp[i - j], j * (i - j)));
+            }
+        } 
+        return dp[n];
     }
 };
 ````
