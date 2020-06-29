@@ -225,6 +225,7 @@ public:
 
 # 62. 不同路径
 找出状态转移方程就可以解出来，通过画图能够很容易的推导出状态转移方程
+
 ![image](https://github.com/xjcgerry/no-unemployment/blob/master/images/62-1.png)
 ````cpp
 class Solution {
