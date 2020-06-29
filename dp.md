@@ -244,3 +244,35 @@ public:
     }
 };
 ````
+
+# 63. 不同路径Ⅱ
+与上一题思路一样的，只要该处有障碍，则状态值就是0。
+````cpp
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        vector<vector<int>> dp(obstacleGrid.size(), vector<int>(obstacleGrid[0].size()));   //int的默认值是0
+        for (int i = 0; i < obstacleGrid.size(); i++) {
+            if (obstacleGrid[i][0] == 0)    //只要没遇到障碍物，该处的状态就是1
+                dp[i][0] = 1;
+            else    //只要遇到障碍物了，后面的状态都是0。因为默认值是0，所以只要跳出不赋值就可以了
+                break;
+        }
+        for (int j = 0; j < obstacleGrid[0].size(); j++) {  //同上
+            if (obstacleGrid[0][j] == 0)
+                dp[0][j] = 1;
+            else
+                break;
+        }
+        for (int i = 1; i < obstacleGrid.size(); i++) {
+            for (int j = 1; j < obstacleGrid[0].size(); j++) {
+                if (obstacleGrid[i][j] == 1)    //这里要注意，如果该处有障碍物，则状态值为0
+                    dp[i][j] = 0;
+                else
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[obstacleGrid.size()-1][obstacleGrid[0].size()-1];
+    }
+};
+````
