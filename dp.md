@@ -163,3 +163,84 @@ public:
     }
 };
 ````
+
+# 198. 打家劫舍
+你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+
+给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+
+示例1
+````
+输入：[1,2,3,1]
+输出：4
+解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
+     偷窃到的最高金额 = 1 + 3 = 4 。
+````
+
+示例2
+````
+输入：[2,7,9,3,1]
+输出：12
+解释：偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
+     偷窃到的最高金额 = 2 + 9 + 1 = 12 。
+````
+基础的dp，递推公式比较简单
+````cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.size() == 0)
+            return 0;
+        vector<int> dp(nums.size() + 1);
+        dp[0] = 0;
+        dp[1] = nums[0];
+        for (int i = 2; i <= nums.size(); i++)
+            dp[i] = max(dp[i - 2] + nums[i - 1], dp[i - 1]);
+        return dp[nums.size()];
+    }
+};
+````
+空间优化
+
+对于小偷问题，我们发现，最后一步计算dp[n]的时候，实际上只用到了dp[n-1]和dp[n-2]的结果。n-3之前的子问题，实际上早就已经用不到了，那么可以只用两个变量保存两个子问题的结果。
+````cpp
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.size() == 0)
+            return 0;
+        
+        int prev = 0;
+        int cur = 0;
+
+        for (int i = 0; i < nums.size(); i++) {
+            int temp = max(cur, prev + nums[i]);
+            prev = cur;
+            cur = temp;
+        }
+        return cur;
+    }
+};
+````
+
+# 62. 不同路径
+找出状态转移方程就可以解出来，通过画图能够很容易的推导出状态转移方程
+![image](https://github.com/xjcgerry/no-unemployment/blob/master/images/62-1.png)
+````cpp
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n));
+        for (int i = 0; i < m; i++)
+            dp[i][0] = 1;
+        for (int j = 0; j < n; j++)
+            dp[0][j] = 1;
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};
+````
