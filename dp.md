@@ -309,3 +309,42 @@ public:
     }
 };
 ````
+## 滑动窗口法
+来自力扣官方题解：https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/solution/zui-chang-zhong-fu-zi-shu-zu-by-leetcode-solution/
+![image](https://github.com/xjcgerry/no-unemployment/blob/master/images/718-2.gif)
+````cpp
+class Solution {
+public:
+    int maxLength(vector<int>& A, vector<int>& B, int addA, int addB, int len) {
+        int res = 0, k = 0;
+        for (int i = 0; i < len; i++) {
+            if (A[addA + i] == B[addB + i]) {
+                k++;
+            }
+            else {
+                k = 0;
+            }
+            res = max(res, k);
+        }
+        return res;
+    }
+    
+    int findLength(vector<int>& A, vector<int>& B) {
+        int m = A.size();
+        int n = B.size();
+        int res = 0;
+        for (int i = 0; i < m; i++) {
+            int len = min(m - i, n);
+            int maxlen = maxLength(A, B, i, 0, len);
+            res = max(res, maxlen);
+        }
+
+        for (int i = 0; i < n; i++) {
+            int len = min(m, n - i);
+            int maxlen = maxLength(A, B, 0, i, len);
+            res = max(res, maxlen);
+        }
+        return res;
+    }
+};
+````
