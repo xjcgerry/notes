@@ -277,3 +277,35 @@ public:
     }
 };
 ````
+
+# 718. 最长重复子数组
+这题第一眼看到就意识到应该用动态规划来做，然而快要成功的时候放弃了，啊啊啊啊，恨呐。
+首先应该把dp表列出来，dp表里面记录的是当前位置的子数组长度，状态转移方程就比较容易看出来了。
+![image](https://github.com/xjcgerry/no-unemployment/blob/master/images/718-1.png)
+````cpp
+class Solution {
+public:
+    int findLength(vector<int>& A, vector<int>& B) {
+        if (A.size() == 0 || B.size() == 0)
+            return 0;
+        int m = A.size();
+        int n = B.size();
+        int maxlen = 0;
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1));
+        for (int i = 0; i <= m; i++)
+            dp[i][0] = 0;
+        for (int j = 0; j <= n; j++)
+            dp[0][j] = 0;
+        
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (A[i - 1] == B[j - 1])
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                if (dp[i][j] > maxlen)
+                    maxlen = dp[i][j];
+            }
+        }
+        return maxlen;
+    }
+};
+````
