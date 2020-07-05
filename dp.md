@@ -348,3 +348,58 @@ public:
     }
 };
 ````
+
+# 44. 通配符匹配
+给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+````
+'?' 可以匹配任何单个字符。
+'*' 可以匹配任意字符串（包括空字符串）。
+两个字符串完全匹配才算匹配成功。
+````
+说明:
+
+* s 可能为空，且只包含从 a-z 的小写字母。
+* p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
+
+## 思路
+动态规划
+
+状态转移方程
+
+边界条件：  
+dp[0][j]：只有\*才能匹配字符串，只要遇到不是\*号的，后面就都是false  
+dp[i][0]：肯定无法匹配，就保持初始的false值就行了
+
+````cpp
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        int len1 = s.size();
+        int len2 = p.size();
+        vector<vector<bool>> dp(len1 + 1, vector<bool>(len2 + 1));
+        dp[0][0] = true;
+        for (int i = 1; i <= len2; ++i) {
+            if (p[i - 1] == '*') {
+                dp[0][i] = true;
+            }
+            else {
+                break;
+            }
+        }
+
+        for (int i = 1; i <= len1; i++) {
+            for (int j = 1; j <= len2; j++) {
+                if (p[j - 1] == s[i - 1] || p[j - 1] == '?') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                else if (p[j - 1] == '*') {
+                    dp[i][j] = dp[i][j - 1] | dp[i - 1][j]; //*可以匹配0或多个字符，对应的就是不使用或者使用这个*
+                }
+            }
+        }
+        return dp[len1][len2];
+    }
+};
+````
+
+
