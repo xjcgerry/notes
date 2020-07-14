@@ -402,4 +402,69 @@ public:
 };
 ````
 
+# 120. 三角形最小路径和
+给定三角形，每次只能移动到下一行中的相邻结点，求从顶点到底边的最小路径和。
+````
+[
+[2],
+[3,4],
+[6,5,7],
+[4,1,8,3]
+]
+相邻结点：与(i, j) 点相邻的结点为 (i + 1, j) 和 (i + 1, j + 1)。
+````
+## 思路
+以自底向上的顺序，定义f(i,j)为点（i,j)到底边的最小路径和，那么递归求解式为  
+f(i,j) = min(f(i+1,j),f(i+1,j+1))+triangle[i][j]  
+1. 递归解法
+````cpp
+class Solution {
+public:
+    int dfs(vector<vector<int>>& triangle, int i, int j) {
+        if (i == triangle.size())
+            return 0;
+        return min(dfs(triangle, i + 1, j), dfs(triangle, i + 1, j + 1)) + triangle[i][j];
+    }
 
+    int minimumTotal(vector<vector<int>>& triangle) {
+        return dfs(triangle, 0, 0);
+    }
+};
+````
+
+2. 动态规划
+dp[i][j]表示从点(i,j)到底边的最小路径和
+
+状态转移方程为：dp[i][j] = min(dp[i + 1][j], dp[i + 1][j + 1]) + triangle[i][j]
+````cpp
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1));  //假设它有n+1行，第n+1行全都是0
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {  //因为第i行最多有i个数字，所以j<=i
+                dp[i][j] = triangle[i][j] + min(dp[i + 1][j], dp[i + 1][j + 1]);
+            }
+        }
+        return dp[0][0];
+    }
+};
+````
+
+3. 空间优化
+计算dp[i][j]时，只用到了下一行的dp[i+1][j]和dp[i+1][j+1]，因此dp数组不需要定义n行，只需要定义一行就行了。
+````cpp
+class Solution {
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        vector<int> dp(n+1);
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                dp[i][j] = min(dp[i+1][j], dp[i+1][j+1])+triangle[i][j];
+            }
+        }
+        return dp[0][0];
+    }
+};
+````
