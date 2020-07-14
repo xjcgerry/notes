@@ -416,7 +416,7 @@ public:
 ## 思路
 以自底向上的顺序，定义f(i,j)为点（i,j)到底边的最小路径和，那么递归求解式为  
 f(i,j) = min(f(i+1,j),f(i+1,j+1))+triangle[i][j]  
-1. 递归解法
+1. 递归解法  
 ````cpp
 class Solution {
 public:
@@ -432,7 +432,7 @@ public:
 };
 ````
 
-2. 动态规划
+2. 动态规划  
 dp[i][j]表示从点(i,j)到底边的最小路径和
 
 状态转移方程为：dp[i][j] = min(dp[i + 1][j], dp[i + 1][j + 1]) + triangle[i][j]
@@ -452,7 +452,7 @@ public:
 };
 ````
 
-3. 空间优化
+3. 空间优化  
 计算dp[i][j]时，只用到了下一行的dp[i+1][j]和dp[i+1][j+1]，因此dp数组不需要定义n行，只需要定义一行就行了。
 ````cpp
 class Solution {
