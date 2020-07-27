@@ -76,28 +76,19 @@ void shellSort(vector<int>& array) {
 void merge(vector<int>& array, vector<int>& copyArray, int left, int right) {
 	int mid = (left + right) / 2;
 	int i = left, j = mid + 1, k = 0;
-	while (i <= mid || j <= right) {
-		if (array[i] > array[j]) {
-			copyArray[k] = array[j];
-			j++;
-		} 
-		else if (array[i] <= array[j]) {
-			copyArray[k] = array[i];
-			i++;
-		}
-		else if (i > mid) {
-			copyArray[k] = array[j];
-			j++;
-		}
-		else {
-			copyArray[k] = array[i];
-			i++;
-		}
-		k++;
+	while (i <= mid && j <= right) {
+		if (array[i] > array[j])
+			copyArray[k++] = array[j++];
+		else
+			copyArray[k++] = array[i++];
 	}
-	for (int i = left; i <= right; i++) {
-		array[i] = copyArray[i];
-	}
+	while (i <= mid)
+		copyArray[k++] = array[i++];
+	while (j <= right)
+		copyArray[k++] = array[j++];
+
+	for (int i = left; i <= right; i++)	//array从left到right，copyArray从0到right-left
+		array[i] = copyArray[i - left];
 }
 
 void mergeSortHelp(vector<int>& array, vector<int>& copyArray, int left, int right) {
