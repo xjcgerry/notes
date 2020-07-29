@@ -112,7 +112,11 @@ void quickSortHelper(vector<int>& array, int left, int right) {
 	}
 	int i = left, j = right, base, temp;
 	base = array[left];
+	//当基准数选择最左边的数字时，那么就应该先从右边开始搜索；
+	//当基准数选择最右边的数字时，那么就应该先从左边开始搜索。
+	//不论是从小到大排序还是从大到小排序！
 	while (i < j) {
+		//基准是最左边数字，从右边开始搜索
 		while (array[j] >= base && i < j)
 			j--;
 		while (array[i] <= base && i < j)
