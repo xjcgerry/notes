@@ -56,6 +56,15 @@ public:
 		return val;
 	}
 
+	vector<int> inorderTraversal_re(TreeNode* root) {
+		if (root != NULL) {
+			inorderTraversal_re(root->left);
+			ans.push_back(root->val);
+			inorderTraversal_re(root->right);
+		}
+		return ans;
+	}
+
 
 
 	vector<int> postorderTraversal(TreeNode* root) {
@@ -100,7 +109,7 @@ int main() {
 
 	vector<int> array;
 	Solution ss;
-	array = ss.preorderTraversal_re(node1);
+	array = ss.inorderTraversal_re(node1);
 	getchar();
 	return 0;
 
