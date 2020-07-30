@@ -66,7 +66,8 @@ public:
 	}
 
 
-
+	//https://leetcode-cn.com/problems/binary-tree-postorder-traversal/solution/a-li-mian-shi-ti-zhi-yong-zhan-qu-zuo-er-cha-shu-d/
+	//仅利用栈判断该节点是否为父节点，每次在栈中压入父结点后压入NULL，之后再依次压入右子结点和左子结点
 	vector<int> postorderTraversal(TreeNode* root) {
 		if (root == NULL) return{};
 		stack<TreeNode*> stk;
