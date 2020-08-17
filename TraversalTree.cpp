@@ -89,6 +89,29 @@ public:
 		}
 		return val;
 	}
+	
+	vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+
+        if (root == NULL) return res;
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while(!q.empty()) {
+            vector<int> level;
+            int count = q.size();
+            while (count--) {
+                TreeNode* t = q.front();
+                q.pop();
+                level.push_back(t->val);
+                if (t->left) q.push(t->left);
+                if (t->right) q.push(t->right);
+            }
+            res.push_back(level);
+        }
+        return res;
+
+    }
 
 };
 
